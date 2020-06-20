@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.navigationcomponentapp.R
+import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.login_fragment.*
 
 class LoginFragment : Fragment() {
@@ -24,17 +25,19 @@ class LoginFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        
-        viewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        viewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
+        
         viewModel.authenticationStateEvent.observe(viewLifecycleOwner, Observer { authenticationState ->
             when(authenticationState){
                 is LoginViewModel.AuthenticationState.InvalidAuthentication -> {
-
+                    val validationFields:Map<String, TextInputLayout> = initValidationFields()
+                    authenticationState.fields.forEach {fieldError ->
+                        validationFields[fieldError.first]?.error = getString(fieldError.second)
+                    }
                 }
             }
         })
@@ -45,5 +48,13 @@ class LoginFragment : Fragment() {
             viewModel.autentication(userName, password)
         }
     }
+
+
+    private fun initValidationFields() = mapOf(
+        LoginViewModel.INPUT_USERNAME.first to inputLayoutLoginUsername,
+        LoginViewModel.INPUT_PASSWORD.first to inputLayoutLoginPassword
+    )
+
+
 
 }
