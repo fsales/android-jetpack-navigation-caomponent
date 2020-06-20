@@ -15,6 +15,10 @@ class LoginViewModel : ViewModel() {
     val authenticationStateEvent = MutableLiveData<AuthenticationState>()
 
     init {
+        refuseAuhentication()
+    }
+
+    fun refuseAuhentication(){
         authenticationStateEvent.value = AuthenticationState.Unauthenticated
     }
 
