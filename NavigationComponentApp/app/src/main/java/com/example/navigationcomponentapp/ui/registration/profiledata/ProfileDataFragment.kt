@@ -7,8 +7,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import com.example.navigationcomponentapp.R
 import com.example.navigationcomponentapp.ui.registration.RegistrationViewModel
+import kotlinx.android.synthetic.main.fragment_profile_data.*
 
 
 class ProfileDataFragment : Fragment() {
@@ -29,7 +31,11 @@ class ProfileDataFragment : Fragment() {
         registrationViewModel.registrationStateEvent.observe(viewLifecycleOwner, Observer { registrationState ->
             when (registrationState){
                 is RegistrationViewModel.RegistrationState.CollectCredentials ->{
+                    val name = inputProfileDataName.text.toString()
+                    val directions = ProfileDataFragmentDirections
+                        .actionProfileDataFragmentToChooseCredentialsFragment(name)
 
+                    findNavController().navigate(directions)
                 }
             }
 
