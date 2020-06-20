@@ -2,9 +2,10 @@ package com.example.navigationcomponentapp.ui.registration
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import com.example.navigationcomponentapp.R
 
-class RegistrationViewModel {
+class RegistrationViewModel : ViewModel(){
     sealed class RegistrationState {
         object CollectProfileData : RegistrationState()
         object CollectCredentials : RegistrationState()

@@ -5,28 +5,35 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
 import com.example.navigationcomponentapp.R
+import com.example.navigationcomponentapp.ui.registration.RegistrationViewModel
 
 
-/**
- * A simple [Fragment] subclass.
- * Use the [ProfileDataFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class ProfileDataFragment : Fragment() {
 
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
+    private val registrationViewModel : RegistrationViewModel by activityViewModels<RegistrationViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_profile_data, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        registrationViewModel.registrationStateEvent.observe(viewLifecycleOwner, Observer { registrationState ->
+            when (registrationState){
+                is RegistrationViewModel.RegistrationState.CollectCredentials ->{
+
+                }
+            }
+
+        })
     }
 
 }
