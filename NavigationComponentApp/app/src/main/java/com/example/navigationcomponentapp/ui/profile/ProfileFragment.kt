@@ -10,6 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.example.navigationcomponentapp.R
 import com.example.navigationcomponentapp.ui.login.LoginViewModel
+import kotlinx.android.synthetic.main.fragment_profile.*
 
 
 /**
@@ -34,7 +35,7 @@ class ProfileFragment : Fragment() {
         loginViewModel.authenticationStateEvent.observe(viewLifecycleOwner, Observer { authenticationState ->
             when(authenticationState){
                 is LoginViewModel.AuthenticationState.Authenticated ->{
-
+                    textProfileUserName.text = getString(R.string.profile_text_username, loginViewModel.userName)
                 }
 
                 is LoginViewModel.AuthenticationState.Unauthenticated ->{
