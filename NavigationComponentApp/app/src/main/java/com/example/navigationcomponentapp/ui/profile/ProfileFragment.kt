@@ -5,7 +5,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import com.example.navigationcomponentapp.R
+import com.example.navigationcomponentapp.ui.login.LoginViewModel
 
 
 /**
@@ -13,6 +17,8 @@ import com.example.navigationcomponentapp.R
  *
  */
 class ProfileFragment : Fragment() {
+
+    private val loginViewModel: LoginViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -22,7 +28,19 @@ class ProfileFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_profile, container, false)
     }
 
-    companion object {
-        fun newInstance() = ProfileFragment()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        loginViewModel.authenticationStateEvent.observe(viewLifecycleOwner, Observer { authenticationState ->
+            when(authenticationState){
+                is LoginViewModel.AuthenticationState.Authenticated ->{
+
+                }
+
+                is LoginViewModel.AuthenticationState.Unauthenticated ->{
+                    findNavController().navigate(R.id.loginFragment)
+                }
+            }
+        })
     }
 }
