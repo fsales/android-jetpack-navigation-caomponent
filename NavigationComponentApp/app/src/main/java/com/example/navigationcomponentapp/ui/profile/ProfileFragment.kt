@@ -32,16 +32,19 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        loginViewModel.authenticationStateEvent.observe(viewLifecycleOwner, Observer { authenticationState ->
-            when(authenticationState){
-                is LoginViewModel.AuthenticationState.Authenticated ->{
-                    textProfileUserName.text = getString(R.string.profile_text_username, loginViewModel.userName)
-                }
+        loginViewModel.authenticationStateEvent.observe(
+            viewLifecycleOwner,
+            Observer { authenticationState ->
+                when (authenticationState) {
+                    is LoginViewModel.AuthenticationState.Authenticated -> {
+                        textProfileUserName.text =
+                            getString(R.string.profile_text_username, loginViewModel.userName)
+                    }
 
-                is LoginViewModel.AuthenticationState.Unauthenticated ->{
-                    findNavController().navigate(R.id.loginFragment)
+                    is LoginViewModel.AuthenticationState.Unauthenticated -> {
+                        findNavController().navigate(R.id.loginFragment)
+                    }
                 }
-            }
-        })
+            })
     }
 }

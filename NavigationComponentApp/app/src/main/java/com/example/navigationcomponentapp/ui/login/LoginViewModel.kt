@@ -14,13 +14,13 @@ class LoginViewModel : ViewModel() {
 
     val authenticationStateEvent = MutableLiveData<AuthenticationState>()
 
-    var userName:String = ""
+    var userName: String = ""
 
     init {
         refuseAuhentication()
     }
 
-    fun refuseAuhentication(){
+    fun refuseAuhentication() {
         authenticationStateEvent.value = AuthenticationState.Unauthenticated
     }
 

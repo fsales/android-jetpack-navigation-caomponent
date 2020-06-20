@@ -28,7 +28,6 @@ class LoginFragment : Fragment() {
     }
 
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -38,7 +37,7 @@ class LoginFragment : Fragment() {
             viewLifecycleOwner,
             Observer { authenticationState ->
                 when (authenticationState) {
-                    is LoginViewModel.AuthenticationState.Authenticated ->{
+                    is LoginViewModel.AuthenticationState.Authenticated -> {
                         findNavController().popBackStack()
                     }
                     is LoginViewModel.AuthenticationState.InvalidAuthentication -> {
@@ -64,7 +63,7 @@ class LoginFragment : Fragment() {
             inputLayoutLoginPassword.dismissError()
         }
 
-        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner){
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
             cancelAuthentication()
         }
     }
@@ -74,7 +73,7 @@ class LoginFragment : Fragment() {
         return true
     }
 
-    private fun cancelAuthentication(){
+    private fun cancelAuthentication() {
         viewModel.refuseAuhentication()
         findNavController().popBackStack(R.id.startFragment, false)
     }
