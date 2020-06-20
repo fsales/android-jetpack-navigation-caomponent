@@ -6,19 +6,19 @@ import com.example.navigationcomponentapp.R
 
 class LoginViewModel : ViewModel() {
 
-    sealed class AuthenticationState{
-        class InvalidAuthentication(val fields: List<Pair<String, Int>>): AuthenticationState()
+    sealed class AuthenticationState {
+        class InvalidAuthentication(val fields: List<Pair<String, Int>>) : AuthenticationState()
     }
 
     val authenticationStateEvent = MutableLiveData<AuthenticationState>()
 
     fun autentication(userName: String, password: String) {
-        if (isValidForm(userName, password)){
+        if (isValidForm(userName, password)) {
             // autenticado
         }
     }
 
-    private fun isValidForm( userName: String, password: String) : Boolean{
+    private fun isValidForm(userName: String, password: String): Boolean {
         val invalidFields = arrayListOf<Pair<String, Int>>()
 
         if (userName.isEmpty()) {
@@ -29,15 +29,16 @@ class LoginViewModel : ViewModel() {
             invalidFields.add(INPUT_PASSWORD)
         }
 
-        if (invalidFields.isNotEmpty()){
-            authenticationStateEvent.value = AuthenticationState.InvalidAuthentication(invalidFields)
+        if (invalidFields.isNotEmpty()) {
+            authenticationStateEvent.value =
+                AuthenticationState.InvalidAuthentication(invalidFields)
             return false
         }
 
         return true
     }
 
-    companion object{
+    companion object {
         val INPUT_USERNAME = "INPUT_USERNAME" to R.string.login_input_layout_error_invalid_username
         val INPUT_PASSWORD = "INPUT_PASSWORD" to R.string.login_input_layout_error_invalid_password
     }

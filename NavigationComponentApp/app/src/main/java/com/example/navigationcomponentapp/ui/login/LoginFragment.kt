@@ -1,11 +1,12 @@
 package com.example.navigationcomponentapp.ui.login
 
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.viewModels
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.navigationcomponentapp.R
@@ -14,7 +15,7 @@ import kotlinx.android.synthetic.main.login_fragment.*
 
 class LoginFragment : Fragment() {
 
-    private lateinit var viewModel: LoginViewModel
+    private val viewModel: LoginViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -29,18 +30,19 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
-        
-        viewModel.authenticationStateEvent.observe(viewLifecycleOwner, Observer { authenticationState ->
-            when(authenticationState){
-                is LoginViewModel.AuthenticationState.InvalidAuthentication -> {
-                    val validationFields:Map<String, TextInputLayout> = initValidationFields()
-                    authenticationState.fields.forEach {fieldError ->
-                        validationFields[fieldError.first]?.error = getString(fieldError.second)
+
+        viewModel.authenticationStateEvent.observe(
+            viewLifecycleOwner,
+            Observer { authenticationState ->
+                when (authenticationState) {
+                    is LoginViewModel.AuthenticationState.InvalidAuthentication -> {
+                        val validationFields: Map<String, TextInputLayout> = initValidationFields()
+                        authenticationState.fields.forEach { fieldError ->
+                            validationFields[fieldError.first]?.error = getString(fieldError.second)
+                        }
                     }
                 }
-            }
-        })
+            })
 
         buttonLoginSignIn.setOnClickListener {
             val userName = inputLoginUsername.text.toString()
@@ -54,7 +56,6 @@ class LoginFragment : Fragment() {
         LoginViewModel.INPUT_USERNAME.first to inputLayoutLoginUsername,
         LoginViewModel.INPUT_PASSWORD.first to inputLayoutLoginPassword
     )
-
 
 
 }
